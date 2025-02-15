@@ -14,6 +14,7 @@ export default function Dashboard() {
   const [isAnonymous, setIsAnonymous] = useState(false);
   const [loading, setLoading] = useState(false);
   const [complaints, setComplaints] = useState([]);
+  const [activeTab, setActiveTab] = useState('submit');
   
   const navigate = useNavigate();
 
@@ -97,90 +98,114 @@ export default function Dashboard() {
         </div>
       </nav>
 
+
       <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        <div className="px-4 py-6 sm:px-0">
-          <div className="bg-white shadow sm:rounded-lg">
-            <div className="px-4 py-5 sm:p-6">
-              <h3 className="text-lg leading-6 font-medium text-gray-900">
-                Submit a Complaint
-              </h3>
-              <form onSubmit={handleSubmit} className="mt-5">
-                <div className="grid grid-cols-1 gap-6">
-                  <div>
-                    <label htmlFor="category" className="block text-sm font-medium text-gray-700">
-                      Category
-                    </label>
-                    <select
-                      id="category"
-                      value={category}
-                      onChange={(e) => setCategory(e.target.value)}
-                      className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-                    >
-                      <option value="academic">Academic</option>
-                      <option value="facilities">Facilities</option>
-                      <option value="harassment">Harassment</option>
-                      <option value="other">Other</option>
-                    </select>
-                  </div>
+        <div className="flex flex-col sm:flex-row space-x-0 sm:space-x-4 mb-6">
+          <button
+            onClick={() => setActiveTab('submit')}
+            className={`w-full sm:w-auto px-4 py-2 font-medium ${activeTab === 'submit' ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-800'}`}
+          >
+            Submit Complaint
+          </button>
+          <button
+            onClick={() => setActiveTab('history')}
+            className={`w-full sm:w-auto px-4 py-2 font-medium ${activeTab === 'history' ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-800'}`}
+          >
+            Your Complaints
+          </button>
+        </div>
 
-                  <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-gray-700">
-                      Your Complaint
-                    </label>
-                    <textarea
-                      id="message"
-                      rows={4}
-                      value={message}
-                      onChange={(e) => setMessage(e.target.value)}
-                      className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                      placeholder="Describe your complaint..."
-                    />
-                  </div>
+        {activeTab === 'submit' && (
+          <div className="px-4 py-6 sm:px-0">
+            <div className="bg-white shadow sm:rounded-lg">
+              <div className="px-4 py-5 sm:p-6">
+                <h3 className="text-lg leading-6 font-medium text-gray-900">
+                  Submit a Complaint
+                </h3>
+                <form onSubmit={handleSubmit} className="mt-5">
+                  <div className="grid grid-cols-1 gap-6">
+                    <div>
+                      <label htmlFor="category" className="block text-sm font-medium text-gray-700">
+                        Category
+                      </label>
+                      <select
+                        id="category"
+                        value={category}
+                        onChange={(e) => setCategory(e.target.value)}
+                        className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                      >
+                        <option value="academic">Academic</option>
+                        <option value="facilities">Facilities</option>
+                        <option value="harassment">Harassment</option>
+                        <option value="other">Other</option>
+                      </select>
+                    </div>
 
-                  <div className="flex items-center">
-                    <input
-                      id="anonymous"
-                      type="checkbox"
-                      checked={isAnonymous}
-                      onChange={(e) => setIsAnonymous(e.target.checked)}
-                      className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-                    />
-                    <label htmlFor="anonymous" className="ml-2 block text-sm text-gray-700">
-                      Submit anonymously
-                    </label>
-                  </div>
+                    <div>
+                      <label htmlFor="message" className="block text-sm font-medium text-gray-700">
+                        Your Complaint
+                      </label>
+                      <textarea
+                        id="message"
+                        rows={4}
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        placeholder="Describe your complaint..."
+                      />
+                    </div>
 
-                  <div>
-                    <button
-                      type="submit"
-                      disabled={loading || !message.trim()}
-                      className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
-                    >
-                      <Send className="h-4 w-4 mr-2" />
-                      {loading ? 'Submitting...' : 'Submit Complaint'}
-                    </button>
+                    <div className="flex items-center">
+                      <input
+                        id="anonymous"
+                        type="checkbox"
+                        checked={isAnonymous}
+                        onChange={(e) => setIsAnonymous(e.target.checked)}
+                        className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                      />
+                      <label htmlFor="anonymous" className="ml-2 block text-sm text-gray-700">
+                        Submit anonymously
+                      </label>
+                    </div>
+
+                    <div>
+                      <button
+                        type="submit"
+                        disabled={loading || !message.trim()}
+                        className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+                      >
+                        <Send className="h-4 w-4 mr-2" />
+                        {loading ? 'Submitting...' : 'Submit Complaint'}
+                      </button>
+                    </div>
                   </div>
-                </div>
-              </form>
+                </form>
+              </div>
             </div>
           </div>
+        )}
+
+        {activeTab === 'history' && (
           <div className="mt-6">
             <h3 className="text-lg leading-6 font-medium text-gray-900">Your Complaints</h3>
             <ul className="space-y-4">
               {complaints.map(complaint => (
-                <li key={complaint.id} className="bg-white shadow rounded-lg p-4 flex justify-between items-center">
-                  <div>
+                <li key={complaint.id} className="bg-white shadow rounded-lg p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center">
+                  <div className="flex-1">
                     <span className="font-semibold text-gray-800">{complaint.category}</span>
-                    <p className="text-gray-600">{complaint.message}</p>
+                    <p className="text-gray-600 text-sm">{complaint.message}</p>
+                    {complaint.reply && (
+                      <p className="text-gray-500">Reply: {complaint.reply}</p>
+                    )}
                   </div>
-                  <span className={`px-2 py-1 text-xs font-semibold rounded-full ${complaint.status === 'pending' ? 'bg-yellow-200 text-yellow-800' : 'bg-green-200 text-green-800'}`}>
+                  <span className={`mt-2 sm:mt-0 sm:ml-4 px-2 py-1 text-xs font-semibold rounded-full ${complaint.status === 'pending' ? 'bg-yellow-200 text-yellow-800' : 'bg-green-200 text-green-800'}`}>
                     {complaint.status}
                   </span>
                 </li>
               ))}
             </ul>
           </div>
-        </div>
+        )}
       </main>
     </div>
   );

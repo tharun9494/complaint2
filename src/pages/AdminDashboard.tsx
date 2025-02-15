@@ -11,6 +11,9 @@ export default function AdminDashboard() {
   const { user } = useAuth();
   const [complaints, setComplaints] = useState<Complaint[]>([]);
   const [loading, setLoading] = useState(true);
+  const [reply, setReply] = useState<string>('');
+  const [replyVisible, setReplyVisible] = useState<{ [key: string]: boolean }>({});
+  const [selectedStatus, setSelectedStatus] = useState<'all' | 'pending' | 'inProgress' | 'resolved'>('all');
 
   useEffect(() => {
     if (!user || user.role !== 'faculty') return;
@@ -49,6 +52,25 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleReply = async (complaintId: string) => {
+    try {
+      await updateDoc(doc(db, 'complaints', complaintId), { reply });
+      toast.success('Reply sent successfully');
+      setReply('');
+    } catch (error) {
+      toast.error('Failed to send reply');
+    }
+  };
+
+  const toggleReply = (complaintId: string) => {
+    setReplyVisible(prev => ({ ...prev, [complaintId]: !prev[complaintId] }));
+  };
+
+  const filteredComplaints = complaints.filter(complaint => {
+    if (selectedStatus === 'all') return true;
+    return complaint.status === selectedStatus;
+  });
+
   if (user?.role !== 'faculty') {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -75,16 +97,47 @@ export default function AdminDashboard() {
         </div>
       </header>
 
+      <nav className="bg-white shadow">
+        <div className="max-w-7xl mx-auto py-2 px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-wrap justify-center sm:justify-start space-x-2">
+            <button
+              onClick={() => setSelectedStatus('all')}
+              className={`px-3 py-2 rounded-md text-sm font-medium ${selectedStatus === 'all' ? 'bg-indigo-600 text-white' : 'text-indigo-600 hover:bg-indigo-100'}`}
+            >
+              All
+            </button>
+            <button
+              onClick={() => setSelectedStatus('pending')}
+              className={`px-3 py-2 rounded-md text-sm font-medium ${selectedStatus === 'pending' ? 'bg-indigo-600 text-white' : 'text-indigo-600 hover:bg-indigo-100'}`}
+            >
+              Pending
+            </button>
+            <button
+              onClick={() => setSelectedStatus('inProgress')}
+              className={`px-3 py-2 rounded-md text-sm font-medium ${selectedStatus === 'inProgress' ? 'bg-indigo-600 text-white' : 'text-indigo-600 hover:bg-indigo-100'}`}
+            >
+              In Progress
+            </button>
+            <button
+              onClick={() => setSelectedStatus('resolved')}
+              className={`px-3 py-2 rounded-md text-sm font-medium ${selectedStatus === 'resolved' ? 'bg-indigo-600 text-white' : 'text-indigo-600 hover:bg-indigo-100'}`}
+            >
+              Resolved
+            </button>
+          </div>
+        </div>
+      </nav>
+
       <main className="max-w-7xl mx-auto py-4 sm:px-6 lg:px-8">
         <div className="px-4 py-6 sm:px-0">
           {loading ? (
             <div className="text-center">Loading complaints...</div>
-          ) : complaints.length === 0 ? (
+          ) : filteredComplaints.length === 0 ? (
             <div className="text-center text-gray-500">No complaints found</div>
           ) : (
             <div className="bg-white shadow overflow-hidden sm:rounded-md">
               <ul className="divide-y divide-gray-200">
-                {complaints.map((complaint) => (
+                {filteredComplaints.map((complaint) => (
                   <li key={complaint.id}>
                     <div className="px-4 py-4 sm:px-6">
                       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between">
@@ -141,6 +194,33 @@ export default function AdminDashboard() {
                           <p className="text-xs text-gray-500">
                             Submitted by: {complaint.email}
                           </p>
+                        </div>
+                      )}
+                      <button
+                          onClick={() => toggleReply(complaint.id)}
+                          className="mt-2 inline-flex items-center px-2 py-1 border border-transparent text-xs font-medium rounded-md text-indigo-600 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        >
+                          {replyVisible[complaint.id] ? 'Cancel' : 'Reply'}
+                        </button>
+                        {replyVisible[complaint.id] && (
+                          <>
+                            <textarea
+                              value={reply}
+                              onChange={(e) => setReply(e.target.value)}
+                              placeholder="Type your reply here..."
+                              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            />
+                            <button
+                              onClick={() => handleReply(complaint.id)}
+                              className="mt-2 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            >
+                              Send Reply
+                            </button>
+                          </>
+                        )}
+                      {complaint.reply && (
+                        <div className="mt-2">
+                          <p className="text-sm text-gray-900">Reply: {complaint.reply}</p>
                         </div>
                       )}
                     </div>
