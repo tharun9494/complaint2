@@ -29,7 +29,7 @@ export default function Login() {
         navigate('/admin'); // Redirect to admin dashboard for faculty
       } else {
         console.log('User login successful, redirecting to home page'); // Debugging log
-        navigate('/'); // Redirect to home page for other users
+        navigate('/user'); // Redirect to home page for other users
       }
     } catch (error) {
       // Improved error handling
@@ -108,7 +108,7 @@ export default function Login() {
 
             <div className="mt-6">
               <Link
-                to="/auth/register"
+                to="/auth/register" 
                 className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-md text-sm font-medium text-indigo-600 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-200 ease-in-out"
               >
                 Register

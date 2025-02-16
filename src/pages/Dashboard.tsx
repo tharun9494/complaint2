@@ -62,7 +62,7 @@ export default function Dashboard() {
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      navigate('/auth/login');
+      navigate('/');
     } catch (error) {
       toast.error('Failed to log out');
     }

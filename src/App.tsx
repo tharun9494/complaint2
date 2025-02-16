@@ -14,7 +14,7 @@ function App() {
         <Routes>
           <Route path="/auth/login" element={<Login />} />
           <Route path="/auth/register" element={<Register />} />
-          <Route path="/" element={<Dashboard />} />
+          <Route path="/user" element={<Dashboard />} />
           <Route path="/admin" element={<AdminDashboard />} />
         </Routes>
       </AuthLayout>

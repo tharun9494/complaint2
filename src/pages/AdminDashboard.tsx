@@ -71,7 +71,7 @@ export default function AdminDashboard() {
     return complaint.status === selectedStatus;
   });
 
-  if (user?.role !== 'faculty') {
+    if (user?.role !== 'faculty') {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
