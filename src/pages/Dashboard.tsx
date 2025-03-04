@@ -74,7 +74,7 @@ export default function Dashboard() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 flex-wrap">
             <div className="flex items-center">
-              <h1 className="text-xl font-semibold text-gray-900">MITS Complaint Box</h1>
+              <h1 className="text-2xl font-bold text-gray-900">MITS Complaint Box</h1>
             </div>
             <div className="flex items-center mt-2">
               <span className="text-gray-700 mr-4 text-sm min-w-[150px]">
@@ -103,13 +103,13 @@ export default function Dashboard() {
         <div className="flex flex-col sm:flex-row space-x-0 sm:space-x-4 mb-6">
           <button
             onClick={() => setActiveTab('submit')}
-            className={`w-full sm:w-auto px-4 py-2 font-medium ${activeTab === 'submit' ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-800'}`}
+            className={`w-full sm:w-auto px-4 py-2 font-medium transition duration-300 ease-in-out border rounded-md ${activeTab === 'submit' ? 'bg-indigo-600 text-white border-indigo-600 shadow-lg' : 'bg-gray-200 text-gray-800 border-gray-300 hover:bg-gray-300'}`}
           >
             Submit Complaint
           </button>
           <button
             onClick={() => setActiveTab('history')}
-            className={`w-full sm:w-auto px-4 py-2 font-medium ${activeTab === 'history' ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-800'}`}
+            className={`w-full sm:w-auto px-4 py-2 font-medium transition duration-300 ease-in-out border rounded-md ${activeTab === 'history' ? 'bg-indigo-600 text-white border-indigo-600 shadow-lg' : 'bg-gray-200 text-gray-800 border-gray-300 hover:bg-gray-300'}`}
           >
             Your Complaints
           </button>
@@ -132,7 +132,7 @@ export default function Dashboard() {
                         id="category"
                         value={category}
                         onChange={(e) => setCategory(e.target.value)}
-                        className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                        className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md shadow-md"
                       >
                         <option value="academic">Academic</option>
                         <option value="facilities">Facilities</option>
@@ -150,7 +150,7 @@ export default function Dashboard() {
                         rows={4}
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
-                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         placeholder="Describe your complaint..."
                       />
                     </div>
@@ -172,7 +172,7 @@ export default function Dashboard() {
                       <button
                         type="submit"
                         disabled={loading || !message.trim()}
-                        className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+                        className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 transition duration-300 ease-in-out"
                       >
                         <Send className="h-4 w-4 mr-2" />
                         {loading ? 'Submitting...' : 'Submit Complaint'}

@@ -44,7 +44,10 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-indigo-500 to-blue-500 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <div 
+      className="min-h-screen bg-gradient-to-r from-indigo-500 to-blue-500 flex flex-col justify-center py-12 sm:px-6 lg:px-8"
+      style={{ backgroundImage: "url('https://mits.ac.in/public/uploads/homepage/88acc160e217ed5fe591be0cff54b910.jpg')", backgroundSize: 'cover' }}
+    >
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="flex justify-center">
           <School className="w-16 h-16 text-white" />
@@ -55,7 +58,7 @@ export default function Login() {
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-6 shadow-lg rounded-lg sm:px-10">
+        <div className="bg-white bg-opacity-30 backdrop-blur-md py-8 px-6 shadow-lg rounded-lg sm:px-10">
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">
@@ -67,7 +70,7 @@ export default function Login() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition duration-200 ease-in-out"
+                className="mt-1 block w-full rounded-md bg-transparent border-b border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition duration-200 ease-in-out"
               />
             </div>
 
@@ -81,7 +84,7 @@ export default function Login() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition duration-200 ease-in-out"
+                className="mt-1 block w-full rounded-md bg-transparent border-b border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition duration-200 ease-in-out"
               />
             </div>
 
